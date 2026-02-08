@@ -7,8 +7,6 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    Area,
-    ComposedChart,
 } from 'recharts';
 import { format } from 'date-fns';
 import { BDRow } from '../../types';

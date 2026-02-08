@@ -37,17 +37,14 @@ function App() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center animated-gradient-bg">
+            <div className="min-h-screen flex items-center justify-center bg-slate-50">
                 <div className="text-center">
-                    {/* Animated logo placeholder */}
                     <div className="relative mb-6">
-                        <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-400 flex items-center justify-center shadow-xl logo-glow">
+                        <div className="w-20 h-20 mx-auto rounded-2xl bg-purple-500 flex items-center justify-center shadow-xl">
                             <Loader2 className="w-10 h-10 text-white animate-spin" />
                         </div>
-                        {/* Decorative rings */}
-                        <div className="absolute inset-0 mx-auto w-20 h-20 rounded-2xl border-2 border-primary-300 animate-ping opacity-30" />
                     </div>
-                    <p className="text-lg font-heading font-medium text-warm-600 loading-pulse">
+                    <p className="text-lg font-heading font-medium text-warm-600">
                         Loading Dashboard...
                     </p>
                     <p className="text-sm text-warm-400 mt-2">Preparing your insights</p>
@@ -58,16 +55,16 @@ function App() {
 
     if (error || !data) {
         return (
-            <div className="min-h-screen flex items-center justify-center animated-gradient-bg">
-                <div className="text-center max-w-md p-8 bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-warm-200">
-                    <div className="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center max-w-md p-8 bg-white rounded-3xl shadow-2xl border border-warm-200">
+                    <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                         <span className="text-4xl">⚠️</span>
                     </div>
                     <h2 className="text-2xl font-heading font-bold text-warm-800 mb-3">Unable to Load Data</h2>
                     <p className="text-warm-500 leading-relaxed">{error || 'An unexpected error occurred.'}</p>
                     <button
                         onClick={() => window.location.reload()}
-                        className="mt-6 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-400 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 btn-glow"
+                        className="mt-6 px-6 py-3 bg-purple-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:bg-purple-600 transition-all duration-300"
                     >
                         Try Again
                     </button>
@@ -77,7 +74,7 @@ function App() {
     }
 
     return (
-        <div className="min-h-screen animated-gradient-bg">
+        <div className="min-h-screen bg-slate-50">
             <Header
                 startDate={dateRange.startDate}
                 endDate={dateRange.endDate}
@@ -87,7 +84,7 @@ function App() {
 
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-            <main className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <main className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pb-6">
                 {activeTab === 'sessions' ? (
                     <SessionsTab
                         summary={data.summary}
@@ -107,37 +104,31 @@ function App() {
                 )}
             </main>
 
-            {/* Enhanced Footer */}
-            <footer className="relative overflow-hidden">
-                {/* Wave decoration */}
-                <div className="footer-wave h-16 -mb-1" />
-
-                {/* Footer content */}
-                <div className="bg-gradient-to-r from-primary-50 via-secondary-50 to-accent-50 py-8">
-                    <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex flex-col items-center gap-3">
-                            {/* Logo and branding */}
-                            <div className="flex items-center gap-3">
-                                <img
-                                    src="/GNHLogo.jpeg"
-                                    alt="Gaur Nitai Home Logo"
-                                    className="h-10 w-10 rounded-lg shadow-md object-cover"
-                                />
-                                <span className="font-heading font-bold text-warm-700">Gaur Nitai Home</span>
-                            </div>
-
-                            {/* Copyright with heart */}
-                            <p className="text-sm text-warm-500 flex items-center gap-2">
-                                © 2026 Gaur Nitai Home
-                                <span className="mx-1">•</span>
-                                Made with
-                                <Heart className="w-4 h-4 text-primary-500 fill-primary-500 animate-pulse" />
-                                for devotees
-                            </p>
-
-                            {/* Decorative divider */}
-                            <div className="w-24 h-1 bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 rounded-full" />
+            {/* Footer */}
+            <footer className="border-t border-warm-200 py-6">
+                <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col items-center gap-3">
+                        {/* Logo and branding */}
+                        <div className="flex items-center gap-3">
+                            <img
+                                src="/GNHLogo.jpeg"
+                                alt="Gaur Nitai Home Logo"
+                                className="h-10 w-10 rounded-lg shadow-md object-cover"
+                            />
+                            <span className="font-heading font-bold text-warm-700">Gaur Nitai Home</span>
                         </div>
+
+                        {/* Copyright with heart */}
+                        <p className="text-sm text-warm-500 flex items-center gap-2">
+                            © 2026 Gaur Nitai Home
+                            <span className="mx-1">•</span>
+                            Made with
+                            <Heart className="w-4 h-4 text-purple-500 fill-purple-500" />
+                            for devotees
+                        </p>
+
+                        {/* Decorative divider */}
+                        <div className="w-24 h-1 bg-purple-500 rounded-full" />
                     </div>
                 </div>
             </footer>

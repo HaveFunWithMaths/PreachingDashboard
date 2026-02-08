@@ -78,15 +78,6 @@ export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg
                 borderBottomWidth: '1px',
             }}
         >
-            {/* Floating particles */}
-            <div className="particles">
-                <div className="particle" />
-                <div className="particle" />
-                <div className="particle" />
-                <div className="particle" />
-                <div className="particle" />
-            </div>
-
             {/* Icon with hover animation */}
             <div className="mb-4 relative z-10">
                 <div className={`p-3 rounded-xl ${iconBgColor} w-fit icon-hover shadow-sm`}>
@@ -113,9 +104,6 @@ export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg
             {trend && (
                 <p className="text-xs text-warm-400 mt-1 relative z-10">{trend.label}</p>
             )}
-
-            {/* Decorative corner gradient */}
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-tl from-primary-100/50 via-secondary-100/30 to-transparent rounded-full blur-xl" />
         </div>
     );
 }
