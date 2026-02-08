@@ -39,7 +39,7 @@ export function Header({
 
                     {/* Title with gradient and animation */}
                     <div className="flex-1 text-center">
-                        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold gradient-text tracking-tight">
+                        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight" style={{ color: '#F7B32B' }}>
                             Gaur Nitai Home Preaching Dashboard
                         </h1>
                     </div>

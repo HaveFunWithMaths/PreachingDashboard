@@ -56,21 +56,28 @@ export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg
         return <Minus className="w-4 h-4" />;
     };
 
+    // Green for positive, Red for negative - as requested
     const getTrendColor = () => {
         if (!trend) return '';
-        if (trend.value > 0) return 'text-accent-500 bg-accent-50';
-        if (trend.value < 0) return 'text-primary-600 bg-primary-50';
+        if (trend.value > 0) return 'text-green-600 bg-green-50';
+        if (trend.value < 0) return 'text-red-600 bg-red-50';
         return 'text-warm-500 bg-warm-50';
     };
 
     return (
         <div
-            className={`kpi-card relative overflow-hidden bg-white rounded-2xl shadow-lg shadow-warm-200/50 border border-warm-100 p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-            style={{ transitionDelay: `${delay}ms` }}
+            className={`kpi-card relative overflow-hidden bg-white rounded-2xl shadow-lg shadow-warm-200/50 border-t-4 p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+            style={{
+                transitionDelay: `${delay}ms`,
+                borderTopColor: gradient.includes('primary') ? '#FF6B35' : gradient.includes('accent') ? '#2D6A4F' : '#F7B32B',
+                borderLeftColor: '#e7e5e4',
+                borderRightColor: '#e7e5e4',
+                borderBottomColor: '#e7e5e4',
+                borderLeftWidth: '1px',
+                borderRightWidth: '1px',
+                borderBottomWidth: '1px',
+            }}
         >
-            {/* Gradient accent at top */}
-            <div className={`absolute top-0 left-0 right-0 h-1.5 ${gradient}`} />
-
             {/* Floating particles */}
             <div className="particles">
                 <div className="particle" />

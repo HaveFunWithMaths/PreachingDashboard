@@ -38,7 +38,6 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
                                         ? 'bg-white text-primary-600 shadow-lg shadow-primary-500/20 scale-[1.02]'
                                         : 'text-warm-500 hover:text-warm-700 hover:bg-white/50'
                                     }
-                                    ${isActive ? 'animate-bounce-soft' : ''}
                                 `}
                                 style={{
                                     animationDelay: `${index * 0.1}s`,
@@ -50,16 +49,11 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
                                 </span>
 
                                 {/* Emoji indicator */}
-                                <span className={`text-base transition-transform duration-300 ${isActive ? 'animate-bounce-soft' : 'opacity-70'}`}>
+                                <span className={`text-base transition-transform duration-300 ${isActive ? '' : 'opacity-70'}`}>
                                     {tab.emoji}
                                 </span>
 
                                 <span className="font-heading">{tab.label}</span>
-
-                                {/* Active indicator line */}
-                                {isActive && (
-                                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-primary-500 to-secondary-400 rounded-full" />
-                                )}
                             </button>
                         );
                     })}
