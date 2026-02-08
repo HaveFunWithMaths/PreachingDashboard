@@ -55,7 +55,7 @@ function App() {
 
     if (error || !data) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="min-h-screen flex items-center justify-center bg-slate-50">
                 <div className="text-center max-w-md p-8 bg-white rounded-3xl shadow-2xl border border-warm-200">
                     <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                         <span className="text-4xl">⚠️</span>
