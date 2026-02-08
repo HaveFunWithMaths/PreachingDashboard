@@ -20,7 +20,7 @@ const COLORS = ['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#e0e7ff'];
 export function SessionPopularityChart({ data }: SessionPopularityChartProps) {
     return (
         <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 chart-container">
-            <h3 className="text-lg font-bold text-slate-800 mb-4">Session Popularity</h3>
+            <h3 className="text-lg font-bold text-slate-800 mb-4">Session Retention</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>

@@ -58,18 +58,21 @@ export function SessionsTab({
                         label: 'vs previous week',
                     }}
                     gradient="bg-gradient-to-r from-indigo-500 to-purple-500"
+                    iconBgColor="bg-indigo-500/10"
                 />
                 <KPICard
                     title="Mentors Allotted"
                     value={mentorsAllotted}
                     icon={<Award className="w-6 h-6 text-emerald-500" />}
                     gradient="bg-gradient-to-r from-emerald-500 to-teal-500"
+                    iconBgColor="bg-emerald-500/10"
                 />
                 <KPICard
                     title="First Time Attendees"
                     value={lastNewAttendees}
                     icon={<UserPlus className="w-6 h-6 text-amber-500" />}
                     gradient="bg-gradient-to-r from-amber-500 to-orange-500"
+                    iconBgColor="bg-amber-500/10"
                 />
             </div>
 

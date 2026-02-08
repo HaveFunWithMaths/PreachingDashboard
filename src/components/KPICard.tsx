@@ -9,10 +9,11 @@ interface KPICardProps {
         value: number;
         label: string;
     };
+    iconBgColor?: string;
     gradient: string;
 }
 
-export function KPICard({ title, value, icon, trend, gradient }: KPICardProps) {
+export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg-slate-50' }: KPICardProps) {
     const getTrendIcon = () => {
         if (!trend) return null;
         if (trend.value > 0) return <TrendingUp className="w-4 h-4" />;
@@ -33,22 +34,21 @@ export function KPICard({ title, value, icon, trend, gradient }: KPICardProps) {
             <div className={`absolute top-0 left-0 right-0 h-1 ${gradient}`} />
 
             {/* Icon */}
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl ${gradient} bg-opacity-10`}>
+            <div className="mb-4">
+                <div className={`p-3 rounded-xl ${iconBgColor} w-fit`}>
                     {icon}
                 </div>
+            </div>
 
+            {/* Value and Trend */}
+            <div className="flex items-baseline gap-3 mb-1">
+                <span className="text-4xl font-bold text-slate-800">{value}</span>
                 {trend && (
                     <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${getTrendColor()}`}>
                         {getTrendIcon()}
                         <span>{Math.abs(trend.value).toFixed(1)}%</span>
                     </div>
                 )}
-            </div>
-
-            {/* Value */}
-            <div className="mb-1">
-                <span className="text-4xl font-bold text-slate-800">{value}</span>
             </div>
 
             {/* Title */}

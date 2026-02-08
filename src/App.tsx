@@ -21,7 +21,7 @@ function App() {
         async function fetchData() {
             try {
                 setLoading(true);
-                const dashboardData = await loadExcelData('/DashBoardData.xlsx');
+                const dashboardData = await loadExcelData('https://docs.google.com/spreadsheets/d/1GaG2OMMg1TG7avyQpxjwfaVWv2-SVRcQbGurorWtsYg/export?format=xlsx');
                 setData(dashboardData);
                 setError(null);
             } catch (err) {

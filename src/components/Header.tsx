@@ -1,4 +1,4 @@
-import { Calendar } from 'lucide-react';
+import { Calendar, RotateCcw } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface HeaderProps {
@@ -65,6 +65,19 @@ export function Header({
                                 />
                             </div>
                         </div>
+
+                        {(startDate || endDate) && (
+                            <button
+                                onClick={() => {
+                                    onStartDateChange(null);
+                                    onEndDateChange(null);
+                                }}
+                                className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-slate-100 rounded-lg transition-colors"
+                                title="Reset Date Filter"
+                            >
+                                <RotateCcw className="w-4 h-4" />
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

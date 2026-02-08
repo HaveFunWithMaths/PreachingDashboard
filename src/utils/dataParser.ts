@@ -52,6 +52,18 @@ function parseNumber(value: unknown): number {
     return isNaN(num) ? 0 : num;
 }
 
+// Helper to adjust year if date is in the future (likely due to wrong year assumption)
+function adjustYearIfFuture(date: Date): Date {
+    const now = new Date();
+    // If date is more than 30 days in the future, assume it belongs to previous year
+    if (date > new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)) {
+        const newDate = new Date(date);
+        newDate.setFullYear(date.getFullYear() - 1);
+        return newDate;
+    }
+    return date;
+}
+
 export async function loadExcelData(filePath: string): Promise<DashboardData> {
     const response = await fetch(filePath);
     const arrayBuffer = await response.arrayBuffer();
@@ -65,7 +77,7 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
             const day = parseDate(row['Day']);
             if (!day) return null;
             return {
-                Day: day,
+                Day: adjustYearIfFuture(day),
                 Attendance: parseNumber(row['Attendance']),
                 NewAttendees: parseNumber(row['New Attendees']),
                 NewContacts: parseNumber(row['New Contacts']),
@@ -128,7 +140,7 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
 
             if (!day) return null;
             return {
-                Day: day,
+                Day: adjustYearIfFuture(day),
                 Small: parseNumber(row['Small']),
                 Medium: parseNumber(row['Medium']),
                 Big: parseNumber(row['Big']),
