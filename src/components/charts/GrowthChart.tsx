@@ -15,9 +15,9 @@ interface GrowthChartProps {
     data: SummaryRow[];
 }
 
-// Tailwind color hex values
-const EMERALD_500 = '#10b981';
-const AMBER_500 = '#f59e0b';
+// Devotional color palette
+const ACCENT_500 = '#2D6A4F'; // Forest green
+const SECONDARY_400 = '#F7B32B'; // Gold
 
 export function GrowthChart({ data }: GrowthChartProps) {
     const chartData = data.map((row) => ({
@@ -28,53 +28,54 @@ export function GrowthChart({ data }: GrowthChartProps) {
     }));
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 chart-container">
-            <h3 className="text-lg font-bold text-slate-800 mb-4">New Attendees & Contacts</h3>
+        <div className="bg-white rounded-2xl shadow-lg shadow-warm-200/50 border border-warm-100 p-6 chart-container">
+            <h3 className="text-lg font-bold text-warm-800 font-heading mb-4">New Attendees & Contacts</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
                         <XAxis
                             dataKey="date"
-                            tick={{ fill: '#64748b', fontSize: 12 }}
-                            tickLine={{ stroke: '#cbd5e1' }}
-                            axisLine={{ stroke: '#e2e8f0' }}
-                            label={{ value: 'Date', position: 'insideBottom', offset: -5, fill: '#64748b' }}
+                            tick={{ fill: '#78716c', fontSize: 12 }}
+                            tickLine={{ stroke: '#d6d3d1' }}
+                            axisLine={{ stroke: '#e7e5e4' }}
+                            label={{ value: 'Date', position: 'insideBottom', offset: -5, fill: '#78716c' }}
                         />
                         <YAxis
-                            tick={{ fill: '#64748b', fontSize: 12 }}
-                            tickLine={{ stroke: '#cbd5e1' }}
-                            axisLine={{ stroke: '#e2e8f0' }}
-                            label={{ value: 'Count', angle: -90, position: 'insideLeft', fill: '#64748b' }}
+                            tick={{ fill: '#78716c', fontSize: 12 }}
+                            tickLine={{ stroke: '#d6d3d1' }}
+                            axisLine={{ stroke: '#e7e5e4' }}
+                            label={{ value: 'Count', angle: -90, position: 'insideLeft', fill: '#78716c' }}
                         />
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: 'white',
-                                border: '1px solid #e2e8f0',
+                                border: '1px solid #e7e5e4',
                                 borderRadius: '12px',
-                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0 10px 25px -5px rgba(45, 106, 79, 0.15)',
+                                fontFamily: 'Inter, sans-serif',
                             }}
                             labelFormatter={(_, payload) => payload[0]?.payload?.fullDate || ''}
                         />
                         <Legend
-                            wrapperStyle={{ paddingTop: '10px' }}
+                            wrapperStyle={{ paddingTop: '10px', fontFamily: 'Inter, sans-serif' }}
                             iconType="circle"
                         />
                         <Line
                             type="monotone"
                             dataKey="New Attendees"
-                            stroke={EMERALD_500}
+                            stroke={ACCENT_500}
                             strokeWidth={3}
-                            dot={{ fill: EMERALD_500, strokeWidth: 2, r: 4 }}
-                            activeDot={{ r: 6, fill: EMERALD_500, stroke: 'white', strokeWidth: 2 }}
+                            dot={{ fill: ACCENT_500, strokeWidth: 2, r: 4, stroke: 'white' }}
+                            activeDot={{ r: 7, fill: ACCENT_500, stroke: 'white', strokeWidth: 3 }}
                         />
                         <Line
                             type="monotone"
                             dataKey="New Contacts"
-                            stroke={AMBER_500}
+                            stroke={SECONDARY_400}
                             strokeWidth={3}
-                            dot={{ fill: AMBER_500, strokeWidth: 2, r: 4 }}
-                            activeDot={{ r: 6, fill: AMBER_500, stroke: 'white', strokeWidth: 2 }}
+                            dot={{ fill: SECONDARY_400, strokeWidth: 2, r: 4, stroke: 'white' }}
+                            activeDot={{ r: 7, fill: SECONDARY_400, stroke: 'white', strokeWidth: 3 }}
                         />
                     </LineChart>
                 </ResponsiveContainer>

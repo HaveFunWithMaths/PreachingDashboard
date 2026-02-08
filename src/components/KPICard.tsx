@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 interface KPICardProps {
     title: string;
@@ -11,9 +11,44 @@ interface KPICardProps {
     };
     iconBgColor?: string;
     gradient: string;
+    delay?: number;
 }
 
-export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg-slate-50' }: KPICardProps) {
+export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg-warm-50', delay = 0 }: KPICardProps) {
+    const [displayValue, setDisplayValue] = useState<number | string>(typeof value === 'number' ? 0 : value);
+    const [isVisible, setIsVisible] = useState(false);
+
+    // Animated counter effect
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), delay);
+        return () => clearTimeout(timer);
+    }, [delay]);
+
+    useEffect(() => {
+        if (typeof value === 'number' && isVisible) {
+            const duration = 1000;
+            const steps = 30;
+            const stepDuration = duration / steps;
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+                currentStep++;
+                const progress = currentStep / steps;
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                setDisplayValue(Math.round(value * easeOut));
+
+                if (currentStep >= steps) {
+                    clearInterval(interval);
+                    setDisplayValue(value);
+                }
+            }, stepDuration);
+
+            return () => clearInterval(interval);
+        } else {
+            setDisplayValue(value);
+        }
+    }, [value, isVisible]);
+
     const getTrendIcon = () => {
         if (!trend) return null;
         if (trend.value > 0) return <TrendingUp className="w-4 h-4" />;
@@ -23,28 +58,42 @@ export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg
 
     const getTrendColor = () => {
         if (!trend) return '';
-        if (trend.value > 0) return 'text-emerald-500 bg-emerald-50';
-        if (trend.value < 0) return 'text-rose-500 bg-rose-50';
-        return 'text-slate-500 bg-slate-50';
+        if (trend.value > 0) return 'text-accent-500 bg-accent-50';
+        if (trend.value < 0) return 'text-primary-600 bg-primary-50';
+        return 'text-warm-500 bg-warm-50';
     };
 
     return (
-        <div className="relative overflow-hidden bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 chart-container">
-            {/* Gradient accent */}
-            <div className={`absolute top-0 left-0 right-0 h-1 ${gradient}`} />
+        <div
+            className={`kpi-card relative overflow-hidden bg-white rounded-2xl shadow-lg shadow-warm-200/50 border border-warm-100 p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+            style={{ transitionDelay: `${delay}ms` }}
+        >
+            {/* Gradient accent at top */}
+            <div className={`absolute top-0 left-0 right-0 h-1.5 ${gradient}`} />
 
-            {/* Icon */}
-            <div className="mb-4">
-                <div className={`p-3 rounded-xl ${iconBgColor} w-fit`}>
+            {/* Floating particles */}
+            <div className="particles">
+                <div className="particle" />
+                <div className="particle" />
+                <div className="particle" />
+                <div className="particle" />
+                <div className="particle" />
+            </div>
+
+            {/* Icon with hover animation */}
+            <div className="mb-4 relative z-10">
+                <div className={`p-3 rounded-xl ${iconBgColor} w-fit icon-hover shadow-sm`}>
                     {icon}
                 </div>
             </div>
 
             {/* Value and Trend */}
-            <div className="flex items-baseline gap-3 mb-1">
-                <span className="text-4xl font-bold text-slate-800">{value}</span>
+            <div className="flex items-baseline gap-3 mb-1 relative z-10">
+                <span className="text-4xl font-bold text-warm-800 font-mono number-animate">
+                    {displayValue}
+                </span>
                 {trend && (
-                    <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${getTrendColor()}`}>
+                    <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${getTrendColor()} trend-pulse`}>
                         {getTrendIcon()}
                         <span>{Math.abs(trend.value).toFixed(1)}%</span>
                     </div>
@@ -52,11 +101,14 @@ export function KPICard({ title, value, icon, trend, gradient, iconBgColor = 'bg
             </div>
 
             {/* Title */}
-            <p className="text-sm font-medium text-slate-500">{title}</p>
+            <p className="text-sm font-medium text-warm-500 font-heading relative z-10">{title}</p>
 
             {trend && (
-                <p className="text-xs text-slate-400 mt-1">{trend.label}</p>
+                <p className="text-xs text-warm-400 mt-1 relative z-10">{trend.label}</p>
             )}
+
+            {/* Decorative corner gradient */}
+            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-tl from-primary-100/50 via-secondary-100/30 to-transparent rounded-full blur-xl" />
         </div>
     );
 }

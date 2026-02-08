@@ -7,8 +7,8 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light;
-  color: #1e293b;
-  background-color: #f8fafc;
+  color: #44403c;
+  background-color: #fafaf9;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,59 +21,217 @@ body {
   min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar with warm theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f5f5f4;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(180deg, #FF6B35, #F7B32B);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(180deg, #ea580c, #d97706);
 }
 
-/* Glass morphism effects */
+/* Glass morphism effects - enhanced */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-/* Gradient text */
+/* Gradient text - devotional theme */
 .gradient-text {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #F7B32B 50%, #2D6A4F 100%);
+  background-size: 200% 200%;
+  animation: gradientText 4s ease infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Chart container animations */
+@keyframes gradientText {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Animated gradient background */
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, #fff7ed, #fffbeb, #ecfdf5, #fafaf9);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Header animated gradient line */
+.header-gradient-line {
+  background: linear-gradient(90deg, #FF6B35, #F7B32B, #2D6A4F, #F7B32B, #FF6B35);
+  background-size: 200% 100%;
+  animation: flowingGradient 3s linear infinite;
+}
+
+@keyframes flowingGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+/* Logo glow effect */
+.logo-glow {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.3),
+    0 0 40px rgba(247, 179, 43, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.logo-glow:hover {
+  box-shadow: 0 0 30px rgba(255, 107, 53, 0.5),
+    0 0 60px rgba(247, 179, 43, 0.3);
+}
+
+/* Chart container animations - enhanced */
 .chart-container {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chart-container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px -12px rgba(255, 107, 53, 0.15),
+    0 12px 25px -8px rgba(0, 0, 0, 0.1);
 }
 
-/* Loading animation */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
+/* KPI Card enhancements */
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.05), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kpi-card:hover::before {
+  opacity: 1;
+}
+
+.kpi-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 25px 50px -12px rgba(255, 107, 53, 0.2),
+    0 12px 25px -8px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon hover animation */
+.icon-hover {
+  transition: all 0.3s ease;
+}
+
+.icon-hover:hover {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Tab underline animation */
+.tab-underline {
+  position: relative;
+}
+
+.tab-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF6B35, #F7B32B);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.tab-underline.active::after {
+  width: 80%;
+}
+
+/* Section accent bar animation */
+.section-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateY(-100%);
   }
+
+  50%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Loading animation - enhanced */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   50% {
-    opacity: 0.5;
+    opacity: 0.7;
+    transform: scale(1.05);
   }
 }
 
@@ -81,18 +239,156 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Tab transition */
+/* Tab transition - enhanced */
 .tab-content {
-  animation: fadeIn 0.3s ease-in-out;
+  animation: tabFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes fadeIn {
+@keyframes tabFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Staggered animation for cards */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+/* Animate on scroll */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUpFade 0.6s ease forwards;
+}
+
+@keyframes slideUpFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button glow effect */
+.btn-glow {
+  transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Footer wave decoration */
+.footer-wave {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23fff7ed' d='M0,50 C360,100 720,0 1080,50 C1260,75 1380,75 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Number counter animation */
+.number-animate {
+  font-family: 'DM Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Floating particles effect (for KPI cards) */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 107, 53, 0.3);
+  border-radius: 50%;
+  animation: floatParticle 4s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  left: 30%;
+  animation-delay: 1s;
+}
+
+.particle:nth-child(3) {
+  left: 50%;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(4) {
+  left: 70%;
+  animation-delay: 1.5s;
+}
+
+.particle:nth-child(5) {
+  left: 90%;
+  animation-delay: 0.5s;
+}
+
+@keyframes floatParticle {
+
+  0%,
+  100% {
+    transform: translateY(100%) scale(0);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Trend badge pulse */
+.trend-pulse {
+  animation: trendPulse 2s ease-in-out infinite;
+}
+
+@keyframes trendPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
   }
 }

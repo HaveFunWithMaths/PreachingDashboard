@@ -14,8 +14,8 @@ interface LeaderboardChartProps {
     data: BDLeaderboardRow[];
 }
 
-// Gold medal gradient colors
-const COLORS = ['#fbbf24', '#f59e0b', '#d97706', '#b45309', '#92400e'];
+// Gold medal gradient colors - devotional theme
+const COLORS = ['#F7B32B', '#FFD166', '#FF6B35', '#FF8C42', '#FFB088'];
 
 export function LeaderboardChart({ data }: LeaderboardChartProps) {
     // Sort by points descending and take top 5
@@ -24,39 +24,48 @@ export function LeaderboardChart({ data }: LeaderboardChartProps) {
         .slice(0, 5);
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 chart-container">
-            <h3 className="text-lg font-bold text-slate-800 mb-4">Top 5 Book Distributors</h3>
+        <div className="bg-white rounded-2xl shadow-lg shadow-warm-200/50 border border-warm-100 p-6 chart-container">
+            <h3 className="text-lg font-bold text-warm-800 font-heading mb-4">Top 5 Book Distributors</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={top5} layout="vertical" margin={{ top: 5, right: 20, left: 80, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={true} vertical={false} />
+                        <defs>
+                            {COLORS.map((color, index) => (
+                                <linearGradient key={`leader-grad-${index}`} id={`leaderGrad-${index}`} x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                                    <stop offset="100%" stopColor={color} stopOpacity={1} />
+                                </linearGradient>
+                            ))}
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" horizontal={true} vertical={false} />
                         <XAxis
                             type="number"
-                            tick={{ fill: '#64748b', fontSize: 12 }}
-                            tickLine={{ stroke: '#cbd5e1' }}
-                            axisLine={{ stroke: '#e2e8f0' }}
-                            label={{ value: 'Points', position: 'insideBottom', offset: -5, fill: '#64748b' }}
+                            tick={{ fill: '#78716c', fontSize: 12 }}
+                            tickLine={{ stroke: '#d6d3d1' }}
+                            axisLine={{ stroke: '#e7e5e4' }}
+                            label={{ value: 'Points', position: 'insideBottom', offset: -5, fill: '#78716c' }}
                         />
                         <YAxis
                             type="category"
                             dataKey="Devotee"
-                            tick={{ fill: '#64748b', fontSize: 12 }}
-                            tickLine={{ stroke: '#cbd5e1' }}
-                            axisLine={{ stroke: '#e2e8f0' }}
+                            tick={{ fill: '#78716c', fontSize: 12 }}
+                            tickLine={{ stroke: '#d6d3d1' }}
+                            axisLine={{ stroke: '#e7e5e4' }}
                             width={75}
                         />
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: 'white',
-                                border: '1px solid #e2e8f0',
+                                border: '1px solid #e7e5e4',
                                 borderRadius: '12px',
-                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0 10px 25px -5px rgba(247, 179, 43, 0.15)',
+                                fontFamily: 'Inter, sans-serif',
                             }}
-                            cursor={{ fill: 'rgba(251, 191, 36, 0.1)' }}
+                            cursor={{ fill: 'rgba(247, 179, 43, 0.1)' }}
                         />
                         <Bar dataKey="Points" radius={[0, 8, 8, 0]}>
                             {top5.map((_, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                <Cell key={`cell-${index}`} fill={`url(#leaderGrad-${index % COLORS.length})`} />
                             ))}
                         </Bar>
                     </BarChart>

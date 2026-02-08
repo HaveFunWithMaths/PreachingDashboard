@@ -15,29 +15,39 @@ export function Header({
     onEndDateChange,
 }: HeaderProps) {
     return (
-        <header className="sticky top-0 z-50 glass border-b border-slate-200/50">
-            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-50">
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-50/90 via-secondary-50/80 to-accent-50/70 backdrop-blur-xl" />
+
+            {/* Animated gradient line at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 header-gradient-line" />
+
+            <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20 gap-4">
-                    {/* Logo */}
-                    <div className="flex-shrink-0">
-                        <img
-                            src="/GNHLogo.jpeg"
-                            alt="Gaur Nitai Home Logo"
-                            className="h-14 w-14 rounded-xl shadow-lg object-cover ring-2 ring-indigo-100"
-                        />
+                    {/* Logo with glow effect */}
+                    <div className="flex-shrink-0 group">
+                        <div className="relative">
+                            <img
+                                src="/GNHLogo.jpeg"
+                                alt="Gaur Nitai Home Logo"
+                                className="h-14 w-14 rounded-xl shadow-lg object-cover ring-2 ring-primary-200 logo-glow transition-transform duration-300 group-hover:scale-105"
+                            />
+                            {/* Decorative ring animation */}
+                            <div className="absolute inset-0 rounded-xl ring-2 ring-primary-400/50 animate-ping opacity-20" />
+                        </div>
                     </div>
 
-                    {/* Title */}
+                    {/* Title with gradient and animation */}
                     <div className="flex-1 text-center">
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold gradient-text tracking-tight">
+                        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold gradient-text tracking-tight">
                             Gaur Nitai Home Preaching Dashboard
                         </h1>
                     </div>
 
-                    {/* Date Filter */}
+                    {/* Date Filter with enhanced styling */}
                     <div className="flex-shrink-0 flex items-center gap-3">
-                        <div className="hidden sm:flex items-center gap-2 text-slate-500">
-                            <Calendar className="w-5 h-5 text-indigo-500" />
+                        <div className="hidden sm:flex items-center gap-2 text-warm-500">
+                            <Calendar className="w-5 h-5 text-primary-500 icon-hover" />
                             <span className="text-sm font-medium">Filter:</span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -48,11 +58,11 @@ export function Header({
                                     onChange={(e) =>
                                         onStartDateChange(e.target.value ? new Date(e.target.value) : null)
                                     }
-                                    className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                    className="px-3 py-2 text-sm border border-warm-200 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all hover:border-primary-300 hover:shadow-md"
                                     placeholder="Start Date"
                                 />
                             </div>
-                            <span className="text-slate-400">to</span>
+                            <span className="text-warm-400 font-medium">to</span>
                             <div className="relative">
                                 <input
                                     type="date"
@@ -60,7 +70,7 @@ export function Header({
                                     onChange={(e) =>
                                         onEndDateChange(e.target.value ? new Date(e.target.value) : null)
                                     }
-                                    className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                    className="px-3 py-2 text-sm border border-warm-200 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all hover:border-primary-300 hover:shadow-md"
                                     placeholder="End Date"
                                 />
                             </div>
@@ -72,7 +82,7 @@ export function Header({
                                     onStartDateChange(null);
                                     onEndDateChange(null);
                                 }}
-                                className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-slate-100 rounded-lg transition-colors"
+                                className="p-2 text-warm-400 hover:text-primary-500 hover:bg-primary-50 rounded-xl transition-all duration-300 btn-glow"
                                 title="Reset Date Filter"
                             >
                                 <RotateCcw className="w-4 h-4" />
