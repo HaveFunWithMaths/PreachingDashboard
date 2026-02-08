@@ -66,9 +66,9 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
             if (!day) return null;
             return {
                 Day: day,
-                Attendance: parseNumber(row['Attendance for programs']), // Updated key
-                NewAttendees: parseNumber(row['New people who came to program']), // Updated key
-                NewContacts: parseNumber(row['New contacts']), // Updated key
+                Attendance: parseNumber(row['Attendance']),
+                NewAttendees: parseNumber(row['New Attendees']),
+                NewContacts: parseNumber(row['New Contacts']),
             };
         })
         .filter((row): row is SummaryRow => row !== null);
