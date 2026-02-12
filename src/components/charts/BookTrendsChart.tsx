@@ -76,7 +76,9 @@ export function BookTrendsChart({ data }: BookTrendsChartProps) {
                             labelFormatter={(_, payload) => payload[0]?.payload?.fullDate || ''}
                         />
                         <Legend
-                            wrapperStyle={{ paddingTop: '10px', fontFamily: 'Inter, sans-serif' }}
+                            verticalAlign="top"
+                            height={36}
+                            wrapperStyle={{ paddingTop: '0px', paddingBottom: '10px', fontFamily: 'Inter, sans-serif' }}
                             iconType="circle"
                         />
                         <Line
