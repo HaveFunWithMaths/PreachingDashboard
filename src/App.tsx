@@ -74,64 +74,68 @@ function App() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50">
-            <Header
-                startDate={dateRange.startDate}
-                endDate={dateRange.endDate}
-                onStartDateChange={(date) => setDateRange((prev) => ({ ...prev, startDate: date }))}
-                onEndDateChange={(date) => setDateRange((prev) => ({ ...prev, endDate: date }))}
-            />
-
+        <div className="min-h-screen bg-slate-50 app-layout">
+            {/* Left Sidebar Navigation */}
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-            <main className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-                {activeTab === 'sessions' ? (
-                    <SessionsTab
-                        summary={data.summary}
-                        mentorsAllotted={data.mentorsAllotted}
-                        cumulativeAttendance={data.cumulativeAttendance}
-                        chanting={data.chanting}
-                        dateRange={dateRange}
-                    />
-                ) : (
-                    <BookDistributionTab
-                        bd={data.bd}
-                        bdLeaderboard={data.bdLeaderboard}
-                        mentorship={data.mentorship}
-                        worksheets={data.worksheets}
-                        dateRange={dateRange}
-                    />
-                )}
-            </main>
+            {/* Main Content Area */}
+            <div className="main-content-area">
+                <Header
+                    startDate={dateRange.startDate}
+                    endDate={dateRange.endDate}
+                    onStartDateChange={(date) => setDateRange((prev) => ({ ...prev, startDate: date }))}
+                    onEndDateChange={(date) => setDateRange((prev) => ({ ...prev, endDate: date }))}
+                />
 
-            {/* Footer */}
-            <footer className="border-t border-warm-200 py-6">
-                <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col items-center gap-3">
-                        {/* Logo and branding */}
-                        <div className="flex items-center gap-3">
-                            <img
-                                src="/GNHLogo.jpeg"
-                                alt="Gaur Nitai Home Logo"
-                                className="h-10 w-10 rounded-lg shadow-md object-cover"
-                            />
-                            <span className="font-heading font-bold text-warm-700">Gaur Nitai Home</span>
+                <main className="w-full mx-auto px-4 sm:px-6 lg:px-8 pb-6 pt-4">
+                    {activeTab === 'sessions' ? (
+                        <SessionsTab
+                            summary={data.summary}
+                            mentorsAllotted={data.mentorsAllotted}
+                            cumulativeAttendance={data.cumulativeAttendance}
+                            chanting={data.chanting}
+                            dateRange={dateRange}
+                        />
+                    ) : (
+                        <BookDistributionTab
+                            bd={data.bd}
+                            bdLeaderboard={data.bdLeaderboard}
+                            mentorship={data.mentorship}
+                            worksheets={data.worksheets}
+                            dateRange={dateRange}
+                        />
+                    )}
+                </main>
+
+                {/* Footer */}
+                <footer className="border-t border-warm-200 py-6">
+                    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex flex-col items-center gap-3">
+                            {/* Logo and branding */}
+                            <div className="flex items-center gap-3">
+                                <img
+                                    src="/GNHLogo.jpeg"
+                                    alt="Gaur Nitai Home Logo"
+                                    className="h-10 w-10 rounded-lg shadow-md object-cover"
+                                />
+                                <span className="font-heading font-bold text-warm-700">Gaur Nitai Home</span>
+                            </div>
+
+                            {/* Copyright with heart */}
+                            <p className="text-sm text-warm-500 flex items-center gap-2">
+                                © 2026 Gaur Nitai Home
+                                <span className="mx-1">•</span>
+                                Made with
+                                <Heart className="w-4 h-4 text-purple-500 fill-purple-500" />
+                                for devotees
+                            </p>
+
+                            {/* Decorative divider */}
+                            <div className="w-24 h-1 bg-purple-500 rounded-full" />
                         </div>
-
-                        {/* Copyright with heart */}
-                        <p className="text-sm text-warm-500 flex items-center gap-2">
-                            © 2026 Gaur Nitai Home
-                            <span className="mx-1">•</span>
-                            Made with
-                            <Heart className="w-4 h-4 text-purple-500 fill-purple-500" />
-                            for devotees
-                        </p>
-
-                        {/* Decorative divider */}
-                        <div className="w-24 h-1 bg-purple-500 rounded-full" />
                     </div>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
     );
 }

@@ -7,6 +7,7 @@ import {
     Tooltip,
     ResponsiveContainer,
     Cell,
+    Label,
 } from 'recharts';
 import { WorksheetsRow } from '../../types';
 
@@ -23,7 +24,7 @@ export function WorksheetChart({ data }: WorksheetChartProps) {
             <h3 className="text-lg font-bold text-warm-800 font-heading mb-4">Worksheet Completion</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                    <BarChart data={data} margin={{ top: 10, right: 20, left: 20, bottom: 50 }}>
                         <defs>
                             {COLORS.map((color, index) => (
                                 <linearGradient key={`ws-grad-${index}`} id={`wsGrad-${index}`} x1="0" y1="0" x2="0" y2="1">
@@ -42,14 +43,27 @@ export function WorksheetChart({ data }: WorksheetChartProps) {
                             textAnchor="end"
                             height={80}
                             interval={0}
-                            label={{ value: 'Worksheets', position: 'insideBottom', offset: -60, fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="No. of worksheets solved"
+                                position="bottom"
+                                offset={5}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif' }}
+                            />
+                        </XAxis>
                         <YAxis
                             tick={{ fill: '#78716c', fontSize: 12 }}
                             tickLine={{ stroke: '#d6d3d1' }}
                             axisLine={{ stroke: '#e7e5e4' }}
-                            label={{ value: 'Number', angle: -90, position: 'insideLeft', fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="No. of participants"
+                                angle={-90}
+                                position="left"
+                                offset={0}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', textAnchor: 'middle' }}
+                            />
+                        </YAxis>
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: 'white',

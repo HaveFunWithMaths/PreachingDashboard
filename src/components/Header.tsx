@@ -19,7 +19,7 @@ export function Header({
             {/* Single color line at bottom */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-purple-500" />
 
-            <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative w-full mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20 gap-4">
                     {/* Logo without glow */}
                     <div className="flex-shrink-0">

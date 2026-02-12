@@ -21,7 +21,172 @@ body {
   min-height: 100vh;
 }
 
-/* Custom scrollbar with warm theme */
+/* ==========================================
+   SIDEBAR LAYOUT SYSTEM
+   ========================================== */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 64px;
+  background: linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  z-index: 100;
+  box-shadow: 4px 0 24px -4px rgba(30, 27, 75, 0.3);
+  border-right: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.sidebar-nav-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sidebar-tab-wrapper {
+  position: relative;
+}
+
+.sidebar-tab-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-tab-btn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  transform: scale(1.08);
+}
+
+.sidebar-tab-btn.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(167, 139, 250, 0.2));
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-active-indicator {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, #a78bfa, #8b5cf6);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+  animation: indicatorPulse 2s ease-in-out infinite;
+}
+
+@keyframes indicatorPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.7);
+  }
+}
+
+.sidebar-tab-icon {
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.sidebar-tab-icon.active {
+  color: #c4b5fd;
+  filter: drop-shadow(0 0 6px rgba(196, 181, 253, 0.4));
+}
+
+.sidebar-tab-btn:hover .sidebar-tab-icon {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Sidebar tooltip */
+.sidebar-tooltip {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  pointer-events: none;
+  animation: tooltipSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes tooltipSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.sidebar-tooltip-text {
+  display: block;
+  background: #1e1b4b;
+  color: #e0e7ff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  padding: 8px 14px;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(30, 27, 75, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  letter-spacing: 0.01em;
+}
+
+.sidebar-tooltip-arrow {
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #1e1b4b;
+  border-left: 1px solid rgba(139, 92, 246, 0.2);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* Main content area offset for sidebar */
+.main-content-area {
+  margin-left: 64px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   SCROLLBAR
+   ========================================== */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -41,7 +206,10 @@ body {
   background: linear-gradient(180deg, #ea580c, #d97706);
 }
 
-/* Glass morphism effects - enhanced */
+/* ==========================================
+   GLASS MORPHISM
+   ========================================== */
+
 .glass {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -49,7 +217,10 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-/* Gradient text - devotional theme */
+/* ==========================================
+   GRADIENT TEXT
+   ========================================== */
+
 .gradient-text {
   background: linear-gradient(135deg, #FF6B35 0%, #F7B32B 50%, #2D6A4F 100%);
   background-size: 200% 200%;
@@ -71,7 +242,10 @@ body {
   }
 }
 
-/* Animated gradient background */
+/* ==========================================
+   ANIMATED BACKGROUNDS
+   ========================================== */
+
 .animated-gradient-bg {
   background: linear-gradient(-45deg, #fff7ed, #fffbeb, #ecfdf5, #fafaf9);
   background-size: 400% 400%;
@@ -121,7 +295,10 @@ body {
     0 0 60px rgba(247, 179, 43, 0.3);
 }
 
-/* Chart container animations - enhanced */
+/* ==========================================
+   CHART CONTAINERS
+   ========================================== */
+
 .chart-container {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -132,7 +309,10 @@ body {
     0 12px 25px -8px rgba(0, 0, 0, 0.1);
 }
 
-/* KPI Card enhancements */
+/* ==========================================
+   KPI CARDS
+   ========================================== */
+
 .kpi-card {
   position: relative;
   overflow: hidden;
@@ -161,7 +341,10 @@ body {
     0 12px 25px -8px rgba(0, 0, 0, 0.1);
 }
 
-/* Icon hover animation */
+/* ==========================================
+   ICON HOVER
+   ========================================== */
+
 .icon-hover {
   transition: all 0.3s ease;
 }
@@ -170,7 +353,10 @@ body {
   transform: rotate(5deg) scale(1.1);
 }
 
-/* Tab underline animation */
+/* ==========================================
+   TAB UNDERLINE
+   ========================================== */
+
 .tab-underline {
   position: relative;
 }
@@ -192,7 +378,10 @@ body {
   width: 80%;
 }
 
-/* Section accent bar animation */
+/* ==========================================
+   SECTION ACCENT
+   ========================================== */
+
 .section-accent {
   position: relative;
   overflow: hidden;
@@ -220,7 +409,10 @@ body {
   }
 }
 
-/* Loading animation - enhanced */
+/* ==========================================
+   LOADING ANIMATION
+   ========================================== */
+
 @keyframes pulse-glow {
 
   0%,
@@ -239,7 +431,10 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Tab transition - enhanced */
+/* ==========================================
+   TAB TRANSITION
+   ========================================== */
+
 .tab-content {
   animation: tabFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -256,7 +451,10 @@ body {
   }
 }
 
-/* Staggered animation for cards */
+/* ==========================================
+   STAGGERED ANIMATIONS
+   ========================================== */
+
 .stagger-1 {
   animation-delay: 0.1s;
 }
@@ -273,7 +471,6 @@ body {
   animation-delay: 0.4s;
 }
 
-/* Animate on scroll */
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(20px);
@@ -287,7 +484,10 @@ body {
   }
 }
 
-/* Button glow effect */
+/* ==========================================
+   BUTTON GLOW
+   ========================================== */
+
 .btn-glow {
   transition: all 0.3s ease;
 }
@@ -296,20 +496,29 @@ body {
   box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
 }
 
-/* Footer wave decoration */
+/* ==========================================
+   FOOTER WAVE DECORATION
+   ========================================== */
+
 .footer-wave {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23fff7ed' d='M0,50 C360,100 720,0 1080,50 C1260,75 1380,75 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-/* Number counter animation */
+/* ==========================================
+   NUMBER COUNTER
+   ========================================== */
+
 .number-animate {
   font-family: 'DM Mono', monospace;
   font-variant-numeric: tabular-nums;
 }
 
-/* Floating particles effect (for KPI cards) */
+/* ==========================================
+   FLOATING PARTICLES
+   ========================================== */
+
 .particles {
   position: absolute;
   top: 0;
@@ -376,7 +585,10 @@ body {
   }
 }
 
-/* Trend badge pulse */
+/* ==========================================
+   TREND BADGE PULSE
+   ========================================== */
+
 .trend-pulse {
   animation: trendPulse 2s ease-in-out infinite;
 }
@@ -390,5 +602,66 @@ body {
 
   50% {
     transform: scale(1.05);
+  }
+}
+
+/* ==========================================
+   RESPONSIVE - Mobile: stack sidebar on top
+   ========================================== */
+
+@media (max-width: 768px) {
+  .sidebar-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 56px;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 0;
+    padding: 6px 0;
+    background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+    box-shadow: 0 4px 24px -4px rgba(30, 27, 75, 0.3);
+    border-right: none;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  }
+
+  .sidebar-nav-inner {
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 0;
+  }
+
+  .sidebar-active-indicator {
+    left: 50%;
+    top: auto;
+    bottom: -2px;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .sidebar-tooltip {
+    left: 50%;
+    top: calc(100% + 12px);
+    transform: translateX(-50%);
+  }
+
+  .sidebar-tooltip-arrow {
+    left: 50%;
+    top: -5px;
+    transform: translateX(-50%) rotate(45deg);
+    border-left: none;
+    border-bottom: none;
+    border-top: 1px solid rgba(139, 92, 246, 0.2);
+    border-right: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .main-content-area {
+    margin-left: 0;
+    margin-top: 56px;
   }
 }

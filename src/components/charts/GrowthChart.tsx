@@ -7,6 +7,7 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
+    Label,
 } from 'recharts';
 import { format } from 'date-fns';
 import { SummaryRow } from '../../types';
@@ -32,21 +33,34 @@ export function GrowthChart({ data }: GrowthChartProps) {
             <h3 className="text-lg font-bold text-warm-800 font-heading mb-4">New Attendees & Contacts</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                    <LineChart data={chartData} margin={{ top: 10, right: 20, left: 20, bottom: 30 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
                         <XAxis
                             dataKey="date"
                             tick={{ fill: '#78716c', fontSize: 12 }}
                             tickLine={{ stroke: '#d6d3d1' }}
                             axisLine={{ stroke: '#e7e5e4' }}
-                            label={{ value: 'Date', position: 'insideBottom', offset: -5, fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="Date"
+                                position="bottom"
+                                offset={10}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif' }}
+                            />
+                        </XAxis>
                         <YAxis
                             tick={{ fill: '#78716c', fontSize: 12 }}
                             tickLine={{ stroke: '#d6d3d1' }}
                             axisLine={{ stroke: '#e7e5e4' }}
-                            label={{ value: 'Count', angle: -90, position: 'insideLeft', fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="Count"
+                                angle={-90}
+                                position="left"
+                                offset={0}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', textAnchor: 'middle' }}
+                            />
+                        </YAxis>
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: 'white',
@@ -58,7 +72,9 @@ export function GrowthChart({ data }: GrowthChartProps) {
                             labelFormatter={(_, payload) => payload[0]?.payload?.fullDate || ''}
                         />
                         <Legend
-                            wrapperStyle={{ paddingTop: '10px', fontFamily: 'Inter, sans-serif' }}
+                            verticalAlign="top"
+                            height={36}
+                            wrapperStyle={{ paddingTop: '0px', paddingBottom: '10px', fontFamily: 'Inter, sans-serif' }}
                             iconType="circle"
                         />
                         <Line

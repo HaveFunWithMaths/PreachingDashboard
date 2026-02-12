@@ -42,7 +42,7 @@ The Excel file contains the following critical sheets:
 ### 3. Tab 2: BD & Mentoring Logic
 **Book Distribution Section:**
 1.  **Book Trends (Combo)**: `BD` Sheet -> X: Day, Lines: Small, Medium, Big, Arjuna.
-2.  **Top 5 Distributors**: `BD Leaderboard` Sheet -> Sort by Points DESC -> Take Top 5 -> Bar Chart.
+2.  **Top 10 Distributors**: `BD Leaderboard` Sheet -> Sort by Points DESC -> Take Top 10 -> Bar Chart.
 
 **Mentoring Section:**
 1.  **Mentor Load**: `Mentorship` Sheet -> X: Mentor, Y: Mentees.

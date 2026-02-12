@@ -5,6 +5,7 @@ import { AttendanceChart } from '../components/charts/AttendanceChart';
 import { GrowthChart } from '../components/charts/GrowthChart';
 import { SessionPopularityChart } from '../components/charts/SessionPopularityChart';
 import { ChantingChart } from '../components/charts/ChantingChart';
+import { format } from 'date-fns';
 import {
     SummaryRow,
     CumulativeAttendanceRow,
@@ -45,12 +46,17 @@ export function SessionsTab({
 
     const lastNewAttendees = getLastNonEmpty(summary, 'NewAttendees') ?? 0;
 
+    // Get the last day's name for KPI card titles
+    const lastDay = summary.length > 0 ? summary[summary.length - 1]?.Day : null;
+    const dayLabel = lastDay ? format(lastDay, 'dd MMM yyyy') : 'N/A';
+
+
     return (
         <div className="tab-content space-y-6">
             {/* KPI Cards with staggered animation */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <KPICard
-                    title="Attendance (Last Week)"
+                    title={`Attendance (${dayLabel})`}
                     value={lastAttendance}
                     icon={<Users className="w-6 h-6 text-primary-500" />}
                     trend={{
@@ -70,7 +76,7 @@ export function SessionsTab({
                     delay={200}
                 />
                 <KPICard
-                    title="First Time Attendees"
+                    title={`First Time Attendees (${dayLabel})`}
                     value={lastNewAttendees}
                     icon={<UserPlus className="w-6 h-6 text-secondary-400" />}
                     gradient="bg-gradient-to-r from-secondary-400 to-primary-400"

@@ -7,6 +7,7 @@ import {
     Tooltip,
     ResponsiveContainer,
     Cell,
+    Label,
 } from 'recharts';
 import { MentorshipRow } from '../../types';
 
@@ -23,7 +24,7 @@ export function MentorLoadChart({ data }: MentorLoadChartProps) {
             <h3 className="text-lg font-bold text-warm-800 font-heading mb-4">Mentees Allotted</h3>
             <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                    <BarChart data={data} margin={{ top: 10, right: 20, left: 20, bottom: 50 }}>
                         <defs>
                             {COLORS.map((color, index) => (
                                 <linearGradient key={`mentor-grad-${index}`} id={`mentorGrad-${index}`} x1="0" y1="0" x2="0" y2="1">
@@ -42,14 +43,27 @@ export function MentorLoadChart({ data }: MentorLoadChartProps) {
                             textAnchor="end"
                             height={80}
                             interval={0}
-                            label={{ value: 'Mentor', position: 'insideBottom', offset: -60, fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="Mentor"
+                                position="bottom"
+                                offset={5}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif' }}
+                            />
+                        </XAxis>
                         <YAxis
                             tick={{ fill: '#78716c', fontSize: 12 }}
                             tickLine={{ stroke: '#d6d3d1' }}
                             axisLine={{ stroke: '#e7e5e4' }}
-                            label={{ value: 'Mentees', angle: -90, position: 'insideLeft', fill: '#78716c' }}
-                        />
+                        >
+                            <Label
+                                value="Mentees"
+                                angle={-90}
+                                position="left"
+                                offset={0}
+                                style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', textAnchor: 'middle' }}
+                            />
+                        </YAxis>
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: 'white',
