@@ -114,7 +114,7 @@ function App() {
                             {/* Logo and branding */}
                             <div className="flex items-center gap-3">
                                 <img
-                                    src="/GNHLogo.jpeg"
+                                    src="/GNHLogo.png"
                                     alt="Gaur Nitai Home Logo"
                                     className="h-10 w-10 rounded-lg shadow-md object-cover"
                                 />

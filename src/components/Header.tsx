@@ -24,7 +24,7 @@ export function Header({
                     {/* Logo without glow */}
                     <div className="flex-shrink-0">
                         <img
-                            src="/GNHLogo.jpeg"
+                            src="/GNHLogo.png"
                             alt="Gaur Nitai Home Logo"
                             className="h-14 w-14 rounded-xl shadow-md object-cover ring-2 ring-purple-100"
                         />

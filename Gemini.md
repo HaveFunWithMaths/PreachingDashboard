@@ -17,7 +17,7 @@ The Excel file contains the following critical sheets:
 
 ### 1. Layout & Navigation
 - **Header**: 
-  - Logo (`GNHLogo.jpeg`) Left.
+  - Logo (`GNHLogo.png`) Left.
   - Title Center.
   - Date Range Picker Right (Start Date, End Date).
 - **Tabs**: "Sessions" (Default), "Book Distribution and Mentoring".
