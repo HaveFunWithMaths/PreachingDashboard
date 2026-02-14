@@ -145,6 +145,7 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
                 Medium: parseNumber(row['Medium']),
                 Big: parseNumber(row['Big']),
                 Arjuna: parseNumber(row['Arjuna']),
+                Total: parseNumber(row['Total']),
             };
         })
         .filter((row): row is BDRow => row !== null);

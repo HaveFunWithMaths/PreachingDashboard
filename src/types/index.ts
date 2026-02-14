@@ -28,6 +28,7 @@ export interface BDRow {
     Medium: number;
     Big: number;
     Arjuna: number;
+    Total: number;
 }
 
 export interface BDLeaderboardRow {
