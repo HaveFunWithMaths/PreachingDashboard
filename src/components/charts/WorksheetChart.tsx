@@ -45,7 +45,7 @@ export function WorksheetChart({ data }: WorksheetChartProps) {
                             interval={0}
                         >
                             <Label
-                                value="No. of worksheets solved"
+                                value="Date"
                                 position="bottom"
                                 offset={5}
                                 style={{ fill: '#57534e', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif' }}
@@ -57,7 +57,7 @@ export function WorksheetChart({ data }: WorksheetChartProps) {
                             axisLine={{ stroke: '#e7e5e4' }}
                         >
                             <Label
-                                value="No. of participants"
+                                value="Worksheets Solved"
                                 angle={-90}
                                 position="left"
                                 offset={0}

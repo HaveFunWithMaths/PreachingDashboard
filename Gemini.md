@@ -45,7 +45,7 @@ The Excel file contains the following critical sheets:
 2.  **Top 10 Distributors**: `BD Leaderboard` Sheet -> Sort by Points DESC -> Take Top 10 -> Bar Chart.
 
 **Mentoring Section:**
-1.  **Mentor Load**: `Mentorship` Sheet -> X: Mentor, Y: Mentees.
+1.  **Mentor Load**: `Mentorship` Sheet -> X: Mentor, Y: No. of Mentees.
 2.  **Worksheet Progress**: `WorkSheets` Sheet -> X: Worsheets, Y: Number.
 
 ## Design Constraints

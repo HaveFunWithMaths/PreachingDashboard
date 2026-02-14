@@ -57,7 +57,7 @@ export function MentorLoadChart({ data }: MentorLoadChartProps) {
                             axisLine={{ stroke: '#e7e5e4' }}
                         >
                             <Label
-                                value="Mentees"
+                                value="No. of Mentees"
                                 angle={-90}
                                 position="left"
                                 offset={0}
