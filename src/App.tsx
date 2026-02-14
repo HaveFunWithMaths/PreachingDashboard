@@ -123,7 +123,8 @@ function App() {
 
                             {/* Copyright with heart */}
                             <p className="text-sm text-warm-500 flex items-center gap-2">
-                                © 2026 Gaur Nitai Home
+                                Gaur Nitai Home
+
                                 <span className="mx-1">•</span>
                                 Made with
                                 <Heart className="w-4 h-4 text-purple-500 fill-purple-500" />
