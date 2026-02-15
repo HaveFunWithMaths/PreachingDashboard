@@ -12,19 +12,20 @@ import {
 
 // Helper to normalize a date to local midnight
 function normalizeToLocalMidnight(date: Date): Date {
-    // If the date is exactly UTC midnight (common for Excel/Sheets exports),
-    // we want to treat it as that calendar day in local time.
-    if (date.getUTCHours() === 0 && date.getUTCMinutes() === 0 && date.getUTCSeconds() === 0) {
-        return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    }
-    // Otherwise, it's likely already a local date or has a time component we want to strip
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    // Add 12 hours to "push" the date to the middle of the day.
+    // This handles both:
+    // 1. Floating point errors (e.g., 23:59:59.999 becomes the next day's noon)
+    // 2. Timezone shifts (e.g., UTC midnight in a negative offset timezone becomes the same day's noon)
+    // Then we take the local year, month, and day.
+    const adjusted = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+    return new Date(adjusted.getFullYear(), adjusted.getMonth(), adjusted.getDate());
 }
 
 // Helper to convert Excel serial date to JS Date
 function excelDateToJSDate(serial: number): Date {
-    const utcDays = Math.floor(serial - 25569);
-    const utcValue = utcDays * 86400;
+    // Use Math.round to handle floating point inaccuracies (e.g., 45657.999999)
+    const days = Math.round(serial - 25569);
+    const utcValue = days * 86400;
     const date = new Date(utcValue * 1000);
     return normalizeToLocalMidnight(date);
 }
@@ -38,13 +39,16 @@ function parseDate(value: unknown): Date | null {
     if (typeof value === 'number') {
         date = excelDateToJSDate(value);
     } else if (value instanceof Date) {
+        // If it's already a Date (from XLSX cellDates: true), normalize it
         date = normalizeToLocalMidnight(value);
     } else if (typeof value === 'string') {
         // Handle YYYY-MM-DD strings explicitly as local
-        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-            const [y, m, d] = value.split('-').map(Number);
-            date = new Date(y, m - 1, d);
+        const ymdMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (ymdMatch) {
+            const [_, y, m, d] = ymdMatch;
+            date = new Date(Number(y), Number(m) - 1, Number(d));
         } else {
+            // For other strings, parse and then normalize
             const parsed = new Date(value);
             if (isNaN(parsed.getTime())) {
                 // Try removing "st", "nd", "rd", "th" from day part
@@ -52,6 +56,9 @@ function parseDate(value: unknown): Date | null {
                 date = new Date(cleaned);
             } else {
                 date = parsed;
+            }
+            if (!isNaN(date.getTime())) {
+                date = normalizeToLocalMidnight(date);
             }
         }
     } else {
