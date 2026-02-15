@@ -60,9 +60,14 @@ export function Header({
                                 <input
                                     type="date"
                                     value={startDate ? format(startDate, 'yyyy-MM-dd') : ''}
-                                    onChange={(e) =>
-                                        onStartDateChange(e.target.value ? new Date(e.target.value) : null)
-                                    }
+                                    onChange={(e) => {
+                                        if (!e.target.value) {
+                                            onStartDateChange(null);
+                                            return;
+                                        }
+                                        const [y, m, d] = e.target.value.split('-').map(Number);
+                                        onStartDateChange(new Date(y, m - 1, d));
+                                    }}
                                     className="w-full sm:w-auto px-3 py-2 text-sm border border-warm-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-300 hover:shadow-md"
                                     placeholder="Start Date"
                                 />
@@ -72,9 +77,14 @@ export function Header({
                                 <input
                                     type="date"
                                     value={endDate ? format(endDate, 'yyyy-MM-dd') : ''}
-                                    onChange={(e) =>
-                                        onEndDateChange(e.target.value ? new Date(e.target.value) : null)
-                                    }
+                                    onChange={(e) => {
+                                        if (!e.target.value) {
+                                            onEndDateChange(null);
+                                            return;
+                                        }
+                                        const [y, m, d] = e.target.value.split('-').map(Number);
+                                        onEndDateChange(new Date(y, m - 1, d));
+                                    }}
                                     className="w-full sm:w-auto px-3 py-2 text-sm border border-warm-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all hover:border-purple-300 hover:shadow-md"
                                     placeholder="End Date"
                                 />

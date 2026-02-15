@@ -10,39 +10,56 @@ import {
     WorksheetsRow,
 } from '../types';
 
+// Helper to normalize a date to local midnight
+function normalizeToLocalMidnight(date: Date): Date {
+    // If the date is exactly UTC midnight (common for Excel/Sheets exports),
+    // we want to treat it as that calendar day in local time.
+    if (date.getUTCHours() === 0 && date.getUTCMinutes() === 0 && date.getUTCSeconds() === 0) {
+        return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+    }
+    // Otherwise, it's likely already a local date or has a time component we want to strip
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 // Helper to convert Excel serial date to JS Date
 function excelDateToJSDate(serial: number): Date {
     const utcDays = Math.floor(serial - 25569);
     const utcValue = utcDays * 86400;
-    return new Date(utcValue * 1000);
+    const date = new Date(utcValue * 1000);
+    return normalizeToLocalMidnight(date);
 }
 
 // Helper to parse date from various formats
 function parseDate(value: unknown): Date | null {
     if (value === null || value === undefined || value === '') return null;
 
+    let date: Date;
+
     if (typeof value === 'number') {
-        return excelDateToJSDate(value);
-    }
-
-    if (value instanceof Date) {
-        return value;
-    }
-
-    if (typeof value === 'string') {
-        const parsed = new Date(value);
-        if (!isNaN(parsed.getTime())) {
-            return parsed;
+        date = excelDateToJSDate(value);
+    } else if (value instanceof Date) {
+        date = normalizeToLocalMidnight(value);
+    } else if (typeof value === 'string') {
+        // Handle YYYY-MM-DD strings explicitly as local
+        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            const [y, m, d] = value.split('-').map(Number);
+            date = new Date(y, m - 1, d);
+        } else {
+            const parsed = new Date(value);
+            if (isNaN(parsed.getTime())) {
+                // Try removing "st", "nd", "rd", "th" from day part
+                const cleaned = value.replace(/(\d+)(st|nd|rd|th)/, '$1');
+                date = new Date(cleaned);
+            } else {
+                date = parsed;
+            }
         }
-
-        // Try removing "st", "nd", "rd", "th" from day part
-        // Example: "4th Jan 2025" -> "4 Jan 2025"
-        const cleaned = value.replace(/(\d+)(st|nd|rd|th)/, '$1');
-        const parsedCleaned = new Date(cleaned);
-        if (!isNaN(parsedCleaned.getTime())) return parsedCleaned;
+    } else {
+        return null;
     }
 
-    return null;
+    if (isNaN(date.getTime())) return null;
+    return date;
 }
 
 // Helper to parse number safely
@@ -59,7 +76,8 @@ function adjustYearIfFuture(date: Date): Date {
     if (date > new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)) {
         const newDate = new Date(date);
         newDate.setFullYear(date.getFullYear() - 1);
-        return newDate;
+        // Re-normalize to be safe
+        return new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
     }
     return date;
 }
