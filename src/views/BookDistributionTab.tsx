@@ -42,6 +42,12 @@ export function BookDistributionTab({
         [summary, dateRange]
     );
 
+    // Filter timeline data by date range
+    const filteredTimeline = useMemo(
+        () => filterByDateRange(bdLeaderboardTimeline, dateRange.startDate, dateRange.endDate),
+        [bdLeaderboardTimeline, dateRange]
+    );
+
     return (
         <div className="tab-content space-y-8">
             {/* Book Distribution Section */}
@@ -81,7 +87,7 @@ export function BookDistributionTab({
                     </div>
                     <div className="animate-on-scroll stagger-4">
                         <BDLeaderboardTimelineChart
-                            data={bdLeaderboardTimeline}
+                            data={filteredTimeline}
                             devotees={bdLeaderboardDevotees}
                         />
                     </div>

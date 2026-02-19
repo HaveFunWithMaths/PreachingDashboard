@@ -194,12 +194,18 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
         const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
 
         // Read date headers from row 0, columns E..K (indices 4..10)
-        const dateHeaders: string[] = [];
+        const dateHeaders: { label: string; day: Date }[] = [];
         for (let c = 4; c <= Math.min(range.e.c, 10); c++) {
             const cell = ws[XLSX.utils.encode_cell({ r: 0, c })];
             if (cell) {
-                // Formatted value like '4 Jan', '10 Jan', '17 Jan' etc.
-                dateHeaders.push(cell.w || String(cell.v));
+                const label = cell.w || String(cell.v);
+                let day = parseDate(cell.v);
+                if (!day) {
+                    // Try to infer date from label if it's like "4 Jan"
+                    const year = new Date().getFullYear();
+                    day = parseDate(`${label} ${year}`);
+                }
+                dateHeaders.push({ label, day: day || new Date() });
             }
         }
 
@@ -224,7 +230,10 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
 
         // Build timeline rows: one per date
         for (let i = 0; i < dateHeaders.length; i++) {
-            const row: BDLeaderboardTimelineRow = { date: dateHeaders[i] };
+            const row: BDLeaderboardTimelineRow = {
+                Day: dateHeaders[i].day,
+                date: dateHeaders[i].label,
+            };
             for (const devotee of bdLeaderboardDevotees) {
                 row[devotee] = devoteeData[devotee]?.[i] ?? 0;
             }

@@ -38,8 +38,9 @@ export interface BDLeaderboardRow {
 
 // Timeline row: date label + one numeric value per devotee
 export interface BDLeaderboardTimelineRow {
+    Day: Date;
     date: string; // e.g. "4 Jan"
-    [devotee: string]: string | number; // devotee name → value
+    [devotee: string]: Date | string | number; // devotee name → value
 }
 
 export interface WorksheetsRow {
