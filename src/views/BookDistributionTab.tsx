@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
-import { BookOpen, Users } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { BookTrendsChart } from '../components/charts/BookTrendsChart';
 import { LeaderboardChart } from '../components/charts/LeaderboardChart';
-import { MentorLoadChart } from '../components/charts/MentorLoadChart';
-import { WorksheetChart } from '../components/charts/WorksheetChart';
+import { GrowthChart } from '../components/charts/GrowthChart';
+import { BDLeaderboardTimelineChart } from '../components/charts/BDLeaderboardTimelineChart';
 import {
     BDRow,
     BDLeaderboardRow,
-    MentorshipRow,
-    WorksheetsRow,
+    BDLeaderboardTimelineRow,
+    SummaryRow,
     DateRange,
 } from '../types';
 import { filterByDateRange } from '../utils/dataParser';
@@ -16,22 +16,30 @@ import { filterByDateRange } from '../utils/dataParser';
 interface BookDistributionTabProps {
     bd: BDRow[];
     bdLeaderboard: BDLeaderboardRow[];
-    mentorship: MentorshipRow[];
-    worksheets: WorksheetsRow[];
+    bdLeaderboardTimeline: BDLeaderboardTimelineRow[];
+    bdLeaderboardDevotees: string[];
+    summary: SummaryRow[];
     dateRange: DateRange;
 }
 
 export function BookDistributionTab({
     bd,
     bdLeaderboard,
-    mentorship,
-    worksheets,
+    bdLeaderboardTimeline,
+    bdLeaderboardDevotees,
+    summary,
     dateRange,
 }: BookDistributionTabProps) {
     // Filter BD data by date range
     const filteredBD = useMemo(
         () => filterByDateRange(bd, dateRange.startDate, dateRange.endDate),
         [bd, dateRange]
+    );
+
+    // Filter summary data by date range (for GrowthChart)
+    const filteredSummary = useMemo(
+        () => filterByDateRange(summary, dateRange.startDate, dateRange.endDate),
+        [summary, dateRange]
     );
 
     return (
@@ -55,7 +63,9 @@ export function BookDistributionTab({
                         <p className="text-sm text-warm-400 font-light italic">Spreading knowledge through literature</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {/* Row 1: Book Trends + Leaderboard */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     <div className="animate-on-scroll stagger-1">
                         <BookTrendsChart data={filteredBD} />
                     </div>
@@ -63,33 +73,17 @@ export function BookDistributionTab({
                         <LeaderboardChart data={bdLeaderboard} />
                     </div>
                 </div>
-            </section>
 
-            {/* Mentoring Section */}
-            <section className="animate-on-scroll stagger-2">
-                <div className="flex items-center gap-4 mb-6">
-                    {/* Animated accent bar */}
-                    <div className="relative h-10 w-1.5 rounded-full overflow-hidden section-accent">
-                        <div className="absolute inset-0 bg-gradient-to-b from-accent-500 via-accent-400 to-accent-500" />
-                    </div>
-
-                    {/* Section icon */}
-                    <div className="p-2 rounded-xl bg-accent-50 icon-hover">
-                        <Users className="w-6 h-6 text-accent-500" />
-                    </div>
-
-                    {/* Section title */}
-                    <div>
-                        <h2 className="text-2xl font-bold text-warm-800 font-heading">Mentoring</h2>
-                        <p className="text-sm text-warm-400 font-light italic">Guiding spiritual journeys</p>
-                    </div>
-                </div>
+                {/* Row 2: New Attendees & Contacts (duplicate) + BD Contributor Timeline */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="animate-on-scroll stagger-3">
-                        <MentorLoadChart data={mentorship} />
+                        <GrowthChart data={filteredSummary} />
                     </div>
                     <div className="animate-on-scroll stagger-4">
-                        <WorksheetChart data={worksheets} />
+                        <BDLeaderboardTimelineChart
+                            data={bdLeaderboardTimeline}
+                            devotees={bdLeaderboardDevotees}
+                        />
                     </div>
                 </div>
             </section>

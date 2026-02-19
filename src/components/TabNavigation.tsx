@@ -1,9 +1,11 @@
-import { LayoutDashboard, BookOpen } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Users } from 'lucide-react';
 import { useState } from 'react';
 
+export type TabId = 'sessions' | 'bookDistribution' | 'mentoring';
+
 interface TabNavigationProps {
-    activeTab: 'sessions' | 'bookDistribution';
-    onTabChange: (tab: 'sessions' | 'bookDistribution') => void;
+    activeTab: TabId;
+    onTabChange: (tab: TabId) => void;
 }
 
 export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
@@ -17,8 +19,13 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
         },
         {
             id: 'bookDistribution' as const,
-            label: 'Book Distribution & Mentoring',
+            label: 'Book Distribution',
             icon: BookOpen,
+        },
+        {
+            id: 'mentoring' as const,
+            label: 'Mentoring',
+            icon: Users,
         },
     ];
 

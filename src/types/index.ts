@@ -36,6 +36,12 @@ export interface BDLeaderboardRow {
     Points: number;
 }
 
+// Timeline row: date label + one numeric value per devotee
+export interface BDLeaderboardTimelineRow {
+    date: string; // e.g. "4 Jan"
+    [devotee: string]: string | number; // devotee name → value
+}
+
 export interface WorksheetsRow {
     Worsheets: string;
     Number: number;
@@ -49,6 +55,8 @@ export interface DashboardData {
     chanting: ChantingRow[];
     bd: BDRow[];
     bdLeaderboard: BDLeaderboardRow[];
+    bdLeaderboardTimeline: BDLeaderboardTimelineRow[];
+    bdLeaderboardDevotees: string[];
     worksheets: WorksheetsRow[];
 }
 

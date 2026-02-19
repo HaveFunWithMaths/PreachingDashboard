@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
-import { TabNavigation } from './components/TabNavigation';
+import { TabNavigation, TabId } from './components/TabNavigation';
 import { SessionsTab } from './views/SessionsTab';
 import { BookDistributionTab } from './views/BookDistributionTab';
+import { MentoringTab } from './views/MentoringTab';
 import { loadExcelData } from './utils/dataParser';
 import { DashboardData, DateRange } from './types';
 import { Loader2, Heart } from 'lucide-react';
 
 function App() {
-    const [activeTab, setActiveTab] = useState<'sessions' | 'bookDistribution'>('sessions');
+    const [activeTab, setActiveTab] = useState<TabId>('sessions');
     const [dateRange, setDateRange] = useState<DateRange>({
         startDate: null,
         endDate: null,
@@ -88,7 +89,7 @@ function App() {
                 />
 
                 <main className="w-full mx-auto px-4 sm:px-6 lg:px-8 pb-6 pt-4">
-                    {activeTab === 'sessions' ? (
+                    {activeTab === 'sessions' && (
                         <SessionsTab
                             summary={data.summary}
                             mentorsAllotted={data.mentorsAllotted}
@@ -96,13 +97,21 @@ function App() {
                             chanting={data.chanting}
                             dateRange={dateRange}
                         />
-                    ) : (
+                    )}
+                    {activeTab === 'bookDistribution' && (
                         <BookDistributionTab
                             bd={data.bd}
                             bdLeaderboard={data.bdLeaderboard}
+                            bdLeaderboardTimeline={data.bdLeaderboardTimeline}
+                            bdLeaderboardDevotees={data.bdLeaderboardDevotees}
+                            summary={data.summary}
+                            dateRange={dateRange}
+                        />
+                    )}
+                    {activeTab === 'mentoring' && (
+                        <MentoringTab
                             mentorship={data.mentorship}
                             worksheets={data.worksheets}
-                            dateRange={dateRange}
                         />
                     )}
                 </main>

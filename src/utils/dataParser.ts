@@ -7,6 +7,7 @@ import {
     ChantingRow,
     BDRow,
     BDLeaderboardRow,
+    BDLeaderboardTimelineRow,
     WorksheetsRow,
 } from '../types';
 
@@ -183,6 +184,54 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
         Points: parseNumber(row['Points']),
     })).filter(row => row.Devotee !== '');
 
+    // Parse BD Leaderboard Timeline from columns D-K (index 3-10)
+    // Row 0 = headers: col D = 'Devotee', col E..K = date labels
+    // Rows 1..N = devotee name + values per date
+    const bdLeaderboardTimeline: BDLeaderboardTimelineRow[] = [];
+    const bdLeaderboardDevotees: string[] = [];
+    {
+        const ws = workbook.Sheets['BD Leaderboard'];
+        const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
+
+        // Read date headers from row 0, columns E..K (indices 4..10)
+        const dateHeaders: string[] = [];
+        for (let c = 4; c <= Math.min(range.e.c, 10); c++) {
+            const cell = ws[XLSX.utils.encode_cell({ r: 0, c })];
+            if (cell) {
+                // Formatted value like '4 Jan', '10 Jan', '17 Jan' etc.
+                dateHeaders.push(cell.w || String(cell.v));
+            }
+        }
+
+        // Read devotee rows: col D = name, col E..K = values
+        // Collect devotees and per-devotee data keyed by date index
+        const devoteeData: Record<string, number[]> = {};
+        for (let r = 1; r <= range.e.r; r++) {
+            const nameCell = ws[XLSX.utils.encode_cell({ r, c: 3 })];
+            if (!nameCell || !nameCell.v) continue;
+            const devotee = String(nameCell.v).trim();
+            if (!devotee) continue;
+            if (!bdLeaderboardDevotees.includes(devotee)) {
+                bdLeaderboardDevotees.push(devotee);
+            }
+            const values: number[] = [];
+            for (let c = 4; c <= Math.min(range.e.c, 10); c++) {
+                const cell = ws[XLSX.utils.encode_cell({ r, c })];
+                values.push(cell ? parseNumber(cell.v) : 0);
+            }
+            devoteeData[devotee] = values;
+        }
+
+        // Build timeline rows: one per date
+        for (let i = 0; i < dateHeaders.length; i++) {
+            const row: BDLeaderboardTimelineRow = { date: dateHeaders[i] };
+            for (const devotee of bdLeaderboardDevotees) {
+                row[devotee] = devoteeData[devotee]?.[i] ?? 0;
+            }
+            bdLeaderboardTimeline.push(row);
+        }
+    }
+
     // Parse WorkSheets sheet
     const worksheetsSheet = workbook.Sheets['WorkSheets'];
     const worksheetsRaw = XLSX.utils.sheet_to_json<Record<string, unknown>>(worksheetsSheet);
@@ -199,6 +248,8 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
         chanting,
         bd,
         bdLeaderboard,
+        bdLeaderboardTimeline,
+        bdLeaderboardDevotees,
         worksheets,
     };
 }
