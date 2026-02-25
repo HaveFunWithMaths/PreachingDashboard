@@ -184,60 +184,60 @@ export async function loadExcelData(filePath: string): Promise<DashboardData> {
         Points: parseNumber(row['Points']),
     })).filter(row => row.Devotee !== '');
 
-    // Parse BD Leaderboard Timeline from columns D-K (index 3-10)
-    // Row 0 = headers: col D = 'Devotee', col E..K = date labels
-    // Rows 1..N = devotee name + values per date
+    // Parse BD Leaderboard Timeline from Column E onwards
     const bdLeaderboardTimeline: BDLeaderboardTimelineRow[] = [];
     const bdLeaderboardDevotees: string[] = [];
     {
         const ws = workbook.Sheets['BD Leaderboard'];
-        const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
+        if (ws) {
+            const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
 
-        // Read date headers from row 0, columns E..K (indices 4..10)
-        const dateHeaders: { label: string; day: Date }[] = [];
-        for (let c = 4; c <= Math.min(range.e.c, 10); c++) {
-            const cell = ws[XLSX.utils.encode_cell({ r: 0, c })];
-            if (cell) {
-                const label = cell.w || String(cell.v);
-                let day = parseDate(cell.v);
-                if (!day) {
-                    // Try to infer date from label if it's like "4 Jan"
-                    const year = new Date().getFullYear();
-                    day = parseDate(`${label} ${year}`);
+            // Read date headers from row 0, starting from Column E (index 4)
+            const dateHeaders: { label: string; day: Date; colIndex: number }[] = [];
+            for (let c = 4; c <= range.e.c; c++) {
+                const cell = ws[XLSX.utils.encode_cell({ r: 0, c })];
+                if (cell && cell.v !== undefined && cell.v !== null && String(cell.v).trim() !== '') {
+                    const label = cell.w || String(cell.v);
+                    let day = parseDate(cell.v);
+                    if (!day) {
+                        // Try to infer date from label if it's like "4 Jan"
+                        const year = new Date().getFullYear();
+                        day = parseDate(`${label} ${year}`);
+                    }
+                    dateHeaders.push({ label, day: day || new Date(), colIndex: c });
                 }
-                dateHeaders.push({ label, day: day || new Date() });
             }
-        }
 
-        // Read devotee rows: col D = name, col E..K = values
-        // Collect devotees and per-devotee data keyed by date index
-        const devoteeData: Record<string, number[]> = {};
-        for (let r = 1; r <= range.e.r; r++) {
-            const nameCell = ws[XLSX.utils.encode_cell({ r, c: 3 })];
-            if (!nameCell || !nameCell.v) continue;
-            const devotee = String(nameCell.v).trim();
-            if (!devotee) continue;
-            if (!bdLeaderboardDevotees.includes(devotee)) {
-                bdLeaderboardDevotees.push(devotee);
+            // Read devotee rows: Column D (index 3) = name, Column E (index 4) onwards = values
+            // Collect devotees and per-devotee data keyed by date index
+            const devoteeData: Record<string, number[]> = {};
+            for (let r = 1; r <= range.e.r; r++) {
+                const nameCell = ws[XLSX.utils.encode_cell({ r, c: 3 })];
+                if (!nameCell || nameCell.v === undefined || nameCell.v === null) continue;
+                const devotee = String(nameCell.v).trim();
+                if (!devotee) continue;
+                if (!bdLeaderboardDevotees.includes(devotee)) {
+                    bdLeaderboardDevotees.push(devotee);
+                }
+                const values: number[] = [];
+                for (const header of dateHeaders) {
+                    const cell = ws[XLSX.utils.encode_cell({ r, c: header.colIndex })];
+                    values.push(cell ? parseNumber(cell.v) : 0);
+                }
+                devoteeData[devotee] = values;
             }
-            const values: number[] = [];
-            for (let c = 4; c <= Math.min(range.e.c, 10); c++) {
-                const cell = ws[XLSX.utils.encode_cell({ r, c })];
-                values.push(cell ? parseNumber(cell.v) : 0);
-            }
-            devoteeData[devotee] = values;
-        }
 
-        // Build timeline rows: one per date
-        for (let i = 0; i < dateHeaders.length; i++) {
-            const row: BDLeaderboardTimelineRow = {
-                Day: dateHeaders[i].day,
-                date: dateHeaders[i].label,
-            };
-            for (const devotee of bdLeaderboardDevotees) {
-                row[devotee] = devoteeData[devotee]?.[i] ?? 0;
+            // Build timeline rows: one per date
+            for (let i = 0; i < dateHeaders.length; i++) {
+                const row: BDLeaderboardTimelineRow = {
+                    Day: dateHeaders[i].day,
+                    date: dateHeaders[i].label,
+                };
+                for (const devotee of bdLeaderboardDevotees) {
+                    row[devotee] = devoteeData[devotee]?.[i] ?? 0;
+                }
+                bdLeaderboardTimeline.push(row);
             }
-            bdLeaderboardTimeline.push(row);
         }
     }
 

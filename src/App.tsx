@@ -19,21 +19,32 @@ function App() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        let isInitialFetch = true;
+
         async function fetchData() {
             try {
-                setLoading(true);
-                const dashboardData = await loadExcelData('https://docs.google.com/spreadsheets/d/1GaG2OMMg1TG7avyQpxjwfaVWv2-SVRcQbGurorWtsYg/export?format=xlsx');
+                if (isInitialFetch) setLoading(true);
+                const baseUrl = 'https://docs.google.com/spreadsheets/d/1GaG2OMMg1TG7avyQpxjwfaVWv2-SVRcQbGurorWtsYg/export?format=xlsx';
+                const dashboardData = await loadExcelData(`${baseUrl}&t=${Date.now()}`);
                 setData(dashboardData);
                 setError(null);
             } catch (err) {
                 console.error('Error loading data:', err);
-                setError('Failed to load dashboard data. Please ensure DashBoardData.xlsx is in the public folder.');
+                if (isInitialFetch) {
+                    setError('Failed to load dashboard data. Please ensure the Google Sheet is accessible.');
+                }
             } finally {
-                setLoading(false);
+                if (isInitialFetch) {
+                    setLoading(false);
+                    isInitialFetch = false;
+                }
             }
         }
 
         fetchData();
+        const interval = setInterval(fetchData, 60000); // Auto-refresh every 60 seconds
+
+        return () => clearInterval(interval);
     }, []);
 
     if (loading) {
