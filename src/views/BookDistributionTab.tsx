@@ -70,18 +70,14 @@ export function BookDistributionTab({
                     </div>
                 </div>
 
-                {/* Row 1: Book Trends + Leaderboard */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                {/* Charts - Each on a separate row */}
+                <div className="flex flex-col gap-8">
                     <div className="animate-on-scroll stagger-1">
                         <BookTrendsChart data={filteredBD} />
                     </div>
                     <div className="animate-on-scroll stagger-2">
                         <LeaderboardChart data={bdLeaderboard} />
                     </div>
-                </div>
-
-                {/* Row 2: New Attendees & Contacts (duplicate) + BD Contributor Timeline */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="animate-on-scroll stagger-3">
                         <GrowthChart data={filteredSummary} />
                     </div>
